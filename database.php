@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 class UserDatabase{
 
@@ -126,7 +126,27 @@ class UserDatabase{
             echo $e->getMessage() . "<br>";
         }
     }
-    
+
+    public function execute_sql_query($in_sql){
+        try{
+
+            $result = mysqli_query($this->conn, $in_sql);
+            $result = mysqli_fetch_all($result, MYSQLI_ASSOC);
+            
+            if(empty($result)){
+                return null;
+            } else {
+                return $result;
+            }
+
+        } catch (Exception $e){
+            echo "Error: At execute sql query<br>";
+            echo "Query is $in_sql <br>";
+            echo "Error exception message:" . $e->getMessage() . "<br>";
+            return null;
+        }
+
+    }    
 }
 
 
