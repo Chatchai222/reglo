@@ -1,20 +1,5 @@
 <?php
 
-define('DB_HOST', 'localhost');
-define('DB_USER', 'chatchai');
-define('DB_PASS', '123456');
-define('DB_NAME', 'reglo');
-
-// Create connection
-$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-
-// Check connection
-if ($conn->connect_error) {
-    die('Connection failed: ' . $conn->connect_error);
-} else {
-    echo "Database connected sucessfully<br>";
-}
-
 class UserDatabase{
 
     private static $instance = null;
@@ -108,9 +93,39 @@ class UserDatabase{
             return null;
         }
         
-
     }
 
+    public function update_user_info($in_email, $user_infos){
+        try{
+            $sql = "
+            UPDATE `user`
+            SET `firstname`='$user_infos[firstname]',
+                `lastname`='$user_infos[lastname]',
+                `telephonenumber`='$user_infos[telephonenumber]'
+            WHERE email='$in_email'
+            ";
+            mysqli_query($this->conn, $sql);
+
+        } catch (Exception $e){
+            echo "Error: At updating user info<br>";
+            echo $e->getMessage() . "<br>";
+        }
+    }
+
+    public function update_user_password($in_email, $new_password){
+        try{
+            $sql = "
+            UPDATE `user`
+            SET `password`='$new_password'
+            WHERE email='$in_email'
+            ";
+            mysqli_query($this->conn, $sql);
+
+        } catch (Exception $e){
+            echo "Error: At updating user password<br>";
+            echo $e->getMessage() . "<br>";
+        }
+    }
     
 }
 
