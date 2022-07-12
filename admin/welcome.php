@@ -1,3 +1,10 @@
+<?php
+    require __DIR__ . '/../database.php';
+    
+    $database = UserDatabase::get_instance();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -8,6 +15,10 @@
     </head>
     <body>
         <h1>Admin Welcome Page</h1>
+
+        <a href="welcome.php">Welcome</a>
+        <a href="manageuser.php">Manage User</a>
+        <a href="logout.php">Log out</a>
 
     </body>
 </html>

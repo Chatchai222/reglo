@@ -127,6 +127,25 @@ class UserDatabase{
         }
     }
 
+    public function is_correct_admin_login($in_email, $in_password){
+        try{
+            $sql = "SELECT * FROM `admin` where email='$in_email' and password='$in_password'";
+            $result = mysqli_query($this->conn, $sql);
+            $result = mysqli_fetch_all($result, MYSQLI_ASSOC);
+            
+            if(empty($result)){
+                return false;
+            } else {
+                return true;
+            }
+
+        } catch (Exception $e){
+            echo "Error: in is_correct_admin_login <br>";
+            echo $e->getMessage() . "<br>";
+            return false;
+        }
+    }
+
     public function execute_sql_query($in_sql){
         try{
 
@@ -146,7 +165,40 @@ class UserDatabase{
             return null;
         }
 
-    }    
+    }
+    
+    public function get_all_user_info(){
+        try{
+            $sql = "SELECT * FROM `user`";
+            $result = mysqli_query($this->conn, $sql);
+            $result = mysqli_fetch_all($result, MYSQLI_ASSOC);
+            
+            if(empty($result)){
+                return null;
+            } else {
+                return $result;
+            }
+
+        } catch (Exception $e){
+            echo "Error: in get_all_user_info <br>";
+            echo $e->getMessage() . "<br>";
+            return null;
+        }
+    }
+
+    public function delete_user_info($in_email){
+        try{
+            $sql = "
+            DELETE FROM `user`
+            WHERE email='$in_email'
+            ";
+            mysqli_query($this->conn, $sql);
+
+        } catch (Exception $e){
+            echo "Error: At delete_user_info <br>";
+            echo $e->getMessage() . "<br>";
+        }
+    }
 }
 
 

@@ -3,6 +3,8 @@
 <?php
     require __DIR__ . '/../database.php';
     if(isset($_POST['submit'])){
+
+        // Getting field from form
         $REQUIRED_FIELD = array('email','password');
         $data_from_post = [];
         foreach($REQUIRED_FIELD as $field){
@@ -14,41 +16,27 @@
             echo "$index -- $data <br>";
         }
         
+        // Data validation
         $database = UserDatabase::get_instance();
         $pass_data_validation = true;
         if(in_array("",$form_data)){
             echo "Not all required field is entered <br>";
             $pass_data_validation = false;
         }
-        if(empty($database->execute_sql_query
-                (
-            "SELECT * FROM `admin` 
-            WHERE email=$form_data[email] 
-            and password=$form_data[password]"
-                )
-            )
-        ){
-            echo "Error:Incorrect login details <br>";
+        if(! $database->is_correct_admin_login($form_data['email'], $form_data['password'])){
+            echo "Incorrect login in detail <br>"; 
             $pass_data_validation = false;
         }
 
-        $result = $database->execute_sql_query
-                (
-            "SELECT * FROM `admin` 
-            WHERE email=$form_data[email] 
-            and password=$form_data[password]"
-                );
-        echo "<br><br>";
-        var_dump($result);
-        echo "<br><br>";
-
-
+        // Logging in
         if($pass_data_validation){
-            echo "Sucessfully login <br>";
+            echo "Admin sucessfully logged in <br>";
             $_SESSION['adminemail'] = $form_data['email'];
+            header("Location: welcome.php");
         } else {
-            echo "Error: Something went wrong with data validation, abort login <br>";
+            echo "Error: Incorrect data validation when logging as admin <br>";
         }
+
     }
 
 ?>
@@ -77,8 +65,10 @@
             <input type="submit" id="submit" name="submit" value="Login">
 
         </form>
-
-        <a href="/reglo/register.php">Register</a>
+        
+        <a href="welcome.php">Welcome</a>
+        <a href="manageuser.php">Manage User</a>
+        <a href="logout.php">Log out</a>
 
     </body>
 </html>

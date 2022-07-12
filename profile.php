@@ -25,6 +25,7 @@
                       Email: $user_infos[email] <br>
                       Telephone number: $user_infos[telephonenumber] <br>
                       Password: $user_infos[password] <br>
+                      Register date: $user_infos[registerdate] <br>
                       ";
             } else {
                 echo "Error: Something is wrong in retrieving info about user <br>";
