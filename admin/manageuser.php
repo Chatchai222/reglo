@@ -4,16 +4,21 @@
     
     $database = UserDatabase::get_instance();
 
-    var_dump($_GET);
-    echo "<br>";
-
     if(isset($_GET['deleteuseremail'])){
-        echo "Button clicked $_GET[deleteuseremail]  <br>";
         $user_email = $_GET['deleteuseremail'];
         $database->delete_user_info($user_email);
         $_GET = []; // clear
         header("Location: manageuser.php");
     }
+
+    if(isset($_GET['updateuseremail'])){
+        $user_email = $_GET['updateuseremail'];
+        echo "Update user email of: $user_email <br>";
+        header("Location: updateuser.php?updateuseremail=$user_email");
+    }
+
+    
+
     
     $result = $database->get_all_user_info();
     if($result != null){
@@ -31,7 +36,8 @@
             foreach($user as $info){
                 echo "<td>$info</td>";
             }
-            echo "<td>" . "<a href=manageuser.php" . "?deleteuseremail=" . "$user[email]" . " >Delete</a>" . "</td>";
+            echo "<td><a href=manageuser.php?deleteuseremail=$user[email]>Delete</a></td>";
+            echo "<td><a href=manageuser.php?updateuseremail=$user[email]>Update</a></td>";
         }
         echo "</table>";
     } else {

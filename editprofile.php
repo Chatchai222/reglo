@@ -40,17 +40,7 @@
             echo "Error: Something went wrong with data validation, abort updating user profile <br>";
         }
 
-        
-        
-
-        
-
     }
-
-    
-    
-    
-    
 
 
 ?>
